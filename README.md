@@ -5,7 +5,9 @@ web app to AWS: a stateful legacy app running as-is today, evaluated
 and rebuilt into a stateless, highly-available architecture.
 
 See [`docs/legacy-assessment.md`](docs/legacy-assessment.md) for what's
-wrong with the current setup and why it has to move.
+wrong with the current setup and why it has to move, and
+[`docs/roadmap.md`](docs/roadmap.md) for the milestones this project
+moves through and why each one matters.
 
 ## What's here right now
 
