@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Flask app state (deliberately local/stateful in legacy-app — never commit)
+instance/
+flask_session/
+uploads/
+*.db
+*.sqlite3
+
+# CDK
+infrastructure/cdk/cdk.out/
+infrastructure/cdk/.cdk.staging/
+*.cdk.staging
+
+# AWS / secrets
+.env
+*.pem
+.aws/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

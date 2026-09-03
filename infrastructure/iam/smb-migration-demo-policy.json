@@ -1,0 +1,116 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EC2Networking",
+      "Effect": "Allow",
+      "Action": "ec2:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "LoadBalancingAndScaling",
+      "Effect": "Allow",
+      "Action": [
+        "elasticloadbalancing:*",
+        "autoscaling:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DataServices",
+      "Effect": "Allow",
+      "Action": [
+        "rds:*",
+        "dynamodb:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "S3ProjectAndCdkAssets",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::smb-migration-demo-*",
+        "arn:aws:s3:::smb-migration-demo-*/*",
+        "arn:aws:s3:::cdk-hnb659fds-*",
+        "arn:aws:s3:::cdk-hnb659fds-*/*"
+      ]
+    },
+    {
+      "Sid": "S3ListForConsole",
+      "Effect": "Allow",
+      "Action": "s3:ListAllMyBuckets",
+      "Resource": "*"
+    },
+    {
+      "Sid": "IamForInstanceRolesAndCdk",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:GetRole",
+        "iam:PassRole",
+        "iam:TagRole",
+        "iam:UntagRole",
+        "iam:CreatePolicy",
+        "iam:DeletePolicy",
+        "iam:GetPolicy",
+        "iam:GetPolicyVersion",
+        "iam:ListPolicyVersions",
+        "iam:CreatePolicyVersion",
+        "iam:DeletePolicyVersion",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:GetRolePolicy",
+        "iam:ListRolePolicies",
+        "iam:ListAttachedRolePolicies",
+        "iam:CreateInstanceProfile",
+        "iam:DeleteInstanceProfile",
+        "iam:GetInstanceProfile",
+        "iam:AddRoleToInstanceProfile",
+        "iam:RemoveRoleFromInstanceProfile",
+        "iam:CreateServiceLinkedRole"
+      ],
+      "Resource": [
+        "arn:aws:iam::*:role/smb-migration-demo-*",
+        "arn:aws:iam::*:policy/smb-migration-demo-*",
+        "arn:aws:iam::*:instance-profile/smb-migration-demo-*",
+        "arn:aws:iam::*:role/cdk-hnb659fds-*",
+        "arn:aws:iam::*:role/aws-service-role/*"
+      ]
+    },
+    {
+      "Sid": "MonitoringAndLogs",
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:*",
+        "logs:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "SsmSessionManagerAndParameters",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:*",
+        "ssmmessages:*",
+        "ec2messages:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudFormationForCdk",
+      "Effect": "Allow",
+      "Action": "cloudformation:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "StsIdentity",
+      "Effect": "Allow",
+      "Action": "sts:GetCallerIdentity",
+      "Resource": "*"
+    }
+  ]
+}
