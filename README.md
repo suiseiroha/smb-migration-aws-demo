@@ -21,37 +21,21 @@ comes next and will be added to this repo as it's built.
 
 ## Running the legacy app yourself
 
-Requires Python 3.10+.
+Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/) —
+nothing else to install.
 
 ```bash
 cd legacy-app
-python -m venv .venv
-```
-
-Activate the virtual environment:
-
-```bash
-# Windows (PowerShell)
-.venv\Scripts\Activate.ps1
-
-# macOS/Linux
-source .venv/bin/activate
-```
-
-Install dependencies and set up the database:
-
-```bash
-pip install -r requirements.txt
-python seed.py
-```
-
-Run it:
-
-```bash
-python app.py
+docker compose up
 ```
 
 Open **http://localhost:5000** and log in with `admin` / `changeme123`.
+First run builds the image and seeds sample data automatically; press
+`Ctrl+C` to stop it, run the same command again any time to bring it
+back up with everything you added still there.
+
+(No Docker? [`legacy-app/README.md`](legacy-app/README.md) has the plain
+Python setup instead.)
 
 ## What to look at
 

@@ -35,6 +35,18 @@ the rehost-vs-replatform reasoning.
 
 ## Running locally
 
+**With Docker (recommended — no Python setup needed):**
+
+```bash
+docker compose up
+```
+
+Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+First run builds the image, creates the database, and seeds sample data
+automatically. Open http://localhost:5000.
+
+**Without Docker:**
+
 ```bash
 # from legacy-app/, with its .venv active
 python seed.py     # creates instance/app.db, seeds an admin user + sample data
@@ -43,6 +55,17 @@ python app.py       # runs on http://localhost:5000
 
 Default login after seeding: `admin` / `changeme123` (change
 `ADMIN_PASSWORD` in `seed.py` before using this anywhere but a local demo).
+
+Either way, `instance/`, `uploads/`, and `flask_session/` end up as real
+folders on disk right here in `legacy-app/` — that's deliberate, see below.
+
+## Deploying to the single EC2 instance
+
+[`deploy/ec2-user-data.sh`](deploy/ec2-user-data.sh) bootstraps Docker
+on a fresh `smb-migration-demo-legacy` instance at launch (paste it into
+the launch wizard's user data field). Everything after that — copying
+the code over, `docker compose up` — is still done by hand, matching
+the "unmanaged SMB box" framing in `docs/legacy-assessment.md`.
 
 ## What's local and gitignored
 
