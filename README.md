@@ -5,19 +5,24 @@ web app to AWS: a stateful legacy app running as-is today, evaluated
 and rebuilt into a stateless, highly-available architecture.
 
 See [`docs/legacy-assessment.md`](docs/legacy-assessment.md) for what's
-wrong with the current setup and why it has to move, and
+wrong with the current setup and why it has to move,
 [`docs/roadmap.md`](docs/roadmap.md) for the milestones this project
-moves through and why each one matters.
+moves through and why each one matters, and
+[`docs/app-rebuild.md`](docs/app-rebuild.md) for how the app itself was
+refactored to be stateless (with diagrams).
 
 ## What's here right now
 
-The legacy side of the simulation: an invoice/customer tracker built to
-run exactly the way a lot of small businesses actually run things — one
-server, local database, local file storage, local session storage. It's
-a real, working app, not a mockup.
+- **`legacy-app/`** — the invoice/customer tracker as a small business
+  would actually run it: one server, local database, local file
+  storage, local session storage. A real, working app, not a mockup.
+- **`modern-app/`** — the same app, refactored so none of that state is
+  tied to the server running it (sessions in DynamoDB, uploads in S3,
+  database in RDS). See `docs/app-rebuild.md` for what changed and why.
 
-The AWS rebuild (VPC, load balancer, auto-scaling, managed database)
-comes next and will be added to this repo as it's built.
+The AWS infrastructure these two need to actually run side by side
+(VPC, load balancer, auto-scaling) comes next and will be added to this
+repo as it's built.
 
 ## Running the legacy app yourself
 
