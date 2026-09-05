@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Customers{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Customers</h1>
+  <a class="button" href="{{ url_for('customer_new') }}">+ New customer</a>
+</div>
+
+{% if customers %}
+<table>
+  <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Invoices</th><th></th></tr></thead>
+  <tbody>
+    {% for c in customers %}
+    <tr>
+      <td>{{ c.name }}</td>
+      <td>{{ c.email }}</td>
+      <td>{{ c.phone or "" }}</td>
+      <td>{{ c.invoices|length }}</td>
+      <td class="actions">
+        <a href="{{ url_for('customer_edit', customer_id=c.id) }}">Edit</a>
+        <form method="post" action="{{ url_for('customer_delete', customer_id=c.id) }}" onsubmit="return confirm('Delete this customer and all their invoices?');">
+          <button type="submit" class="link-button">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No customers yet.</p>
+{% endif %}
+{% endblock %}
