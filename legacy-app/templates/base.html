@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}SMB Tracker{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  {% if current_user.is_authenticated %}
+  <nav>
+    <a href="{{ url_for('dashboard') }}" class="brand">SMB Invoice Tracker</a>
+    <a href="{{ url_for('customer_list') }}">Customers</a>
+    <a href="{{ url_for('invoice_list') }}">Invoices</a>
+    <a href="{{ url_for('logout') }}" class="right">Log out ({{ current_user.username }})</a>
+  </nav>
+  {% endif %}
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

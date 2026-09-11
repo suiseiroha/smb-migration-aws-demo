@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>{{ title }}</h1>
+  <form method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <label>{{ form.invoice_number.label }} {{ form.invoice_number(size=20) }}</label>
+    {% for error in form.invoice_number.errors %}<div class="error">{{ error }}</div>{% endfor %}
+
+    <label>{{ form.customer_id.label }} {{ form.customer_id() }}</label>
+    {% for error in form.customer_id.errors %}<div class="error">{{ error }}</div>{% endfor %}
+
+    <label>{{ form.amount.label }} {{ form.amount(size=10) }}</label>
+    {% for error in form.amount.errors %}<div class="error">{{ error }}</div>{% endfor %}
+
+    <label>{{ form.status.label }} {{ form.status() }}</label>
+
+    <label>{{ form.issue_date.label }} {{ form.issue_date() }}</label>
+    <label>{{ form.due_date.label }} {{ form.due_date() }}</label>
+
+    <label>{{ form.notes.label }}<br>{{ form.notes(rows=3, cols=50) }}</label>
+
+    <label>{{ form.attachment.label }} {{ form.attachment() }}</label>
+    {% for error in form.attachment.errors %}<div class="error">{{ error }}</div>{% endfor %}
+
+    <button type="submit">Save</button>
+    <a href="{{ url_for('invoice_list') }}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

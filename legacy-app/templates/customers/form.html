@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>{{ title }}</h1>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <label>{{ form.name.label }} {{ form.name(size=40) }}</label>
+    {% for error in form.name.errors %}<div class="error">{{ error }}</div>{% endfor %}
+
+    <label>{{ form.email.label }} {{ form.email(size=40) }}</label>
+    {% for error in form.email.errors %}<div class="error">{{ error }}</div>{% endfor %}
+
+    <label>{{ form.phone.label }} {{ form.phone(size=40) }}</label>
+
+    <label>{{ form.address.label }} {{ form.address(size=40) }}</label>
+
+    <button type="submit">Save</button>
+    <a href="{{ url_for('customer_list') }}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

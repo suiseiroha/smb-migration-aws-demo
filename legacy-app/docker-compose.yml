@@ -1,0 +1,11 @@
+services:
+  legacy-app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./instance:/app/instance
+      - ./uploads:/app/uploads
+      - ./flask_session:/app/flask_session
+    environment:
+      - FLASK_DEBUG=1

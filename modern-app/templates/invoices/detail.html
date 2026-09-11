@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Invoice {{ invoice.invoice_number }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Invoice {{ invoice.invoice_number }}</h1>
+  <a class="button" href="{{ url_for('invoice_edit', invoice_id=invoice.id) }}">Edit</a>
+</div>
+
+<div class="card">
+  <p><strong>Customer:</strong> {{ invoice.customer.name }} ({{ invoice.customer.email }})</p>
+  <p><strong>Amount:</strong> ${{ "%.2f"|format(invoice.amount) }}</p>
+  <p><strong>Status:</strong> <span class="badge badge-{{ invoice.status }}">{{ invoice.status }}</span></p>
+  <p><strong>Issue date:</strong> {{ invoice.issue_date }}</p>
+  <p><strong>Due date:</strong> {{ invoice.due_date or "—" }}</p>
+  {% if invoice.notes %}<p><strong>Notes:</strong> {{ invoice.notes }}</p>{% endif %}
+
+  <h3>Attachments</h3>
+  {% if invoice.attachments %}
+  <ul>
+    {% for a in invoice.attachments %}
+    <li><a href="{{ url_for('uploaded_file', stored_filename=a.stored_filename) }}">{{ a.original_filename }}</a> (uploaded {{ a.uploaded_at.strftime('%Y-%m-%d %H:%M') }})</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No attachments. Add one via Edit.</p>
+  {% endif %}
+</div>
+
+<a href="{{ url_for('invoice_list') }}">&larr; Back to invoices</a>
+{% endblock %}
