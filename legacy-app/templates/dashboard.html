@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="stats">
+  <div class="stat"><span class="stat-number">{{ customer_count }}</span><span>Customers</span></div>
+  <div class="stat"><span class="stat-number">{{ invoice_count }}</span><span>Invoices</span></div>
+  <div class="stat"><span class="stat-number">${{ "%.2f"|format(unpaid_total) }}</span><span>Outstanding</span></div>
+</div>
+
+<h2>Recent invoices</h2>
+{% if recent_invoices %}
+<table>
+  <thead><tr><th>#</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+  <tbody>
+    {% for inv in recent_invoices %}
+    <tr>
+      <td><a href="{{ url_for('invoice_detail', invoice_id=inv.id) }}">{{ inv.invoice_number }}</a></td>
+      <td>{{ inv.customer.name }}</td>
+      <td>${{ "%.2f"|format(inv.amount) }}</td>
+      <td><span class="badge badge-{{ inv.status }}">{{ inv.status }}</span></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No invoices yet.</p>
+{% endif %}
+{% endblock %}
