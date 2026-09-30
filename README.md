@@ -49,6 +49,8 @@ legacy app, `cdk deploy --all` for the modernized AWS side.
 - [`infrastructure/iam/README.md`](infrastructure/iam/README.md):
   setting up the scoped IAM user this project uses instead of admin
   access
+- [`docs/pricing.md`](docs/pricing.md): what the workload and the
+  landing zone each cost to run, hourly and monthly
 
 ## What's here
 
