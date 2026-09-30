@@ -55,6 +55,85 @@ Each box under `Workloads` is a fully isolated AWS account. The
 everything else; a workload account can't see or reach another
 workload account at all, by design.
 
+## Roles provisioned, account by account
+
+Every account ends up with two kinds of access: a narrow set of
+service/automation roles it needs to function, and human access via IAM
+Identity Center (Phase 7). Human access is federated centrally from
+Phase 7 onward, not a separate IAM user per account per person, so it's
+called out per account below rather than repeated four times.
+
+### Management
+
+The payer, the organization root, and the only account with authority
+over everything below it. Runs no workloads, no application IAM roles.
+
+- Every member account created in Phase 2 gets an auto-created
+  `OrganizationAccountAccessRole` trusting the Management account, so
+  someone signed in here can always assume their way into any member
+  account. This is the landing zone's break-glass path, and part of why
+  Management's own access should be tightly held.
+- IAM Identity Center itself, and the permission sets assigned into
+  every other account, are configured here (Phase 7).
+
+### Log Archive
+
+Exists purely to hold logs the workload accounts can't touch, not to be
+signed into day to day.
+
+- No routine human role. Access here should be rare, deliberate, and
+  itself logged.
+- The actual access-control mechanism is a resource policy on the
+  CloudTrail S3 bucket (set up automatically by the organization-trail
+  wizard in Phase 4), not an IAM role: every account in the org can
+  write to it, none can read or delete from it, not even this account's
+  own root user for the delete case. The IAM equivalent of write-once
+  media.
+- Optional: a read-only `LogArchiveAuditor` permission set via Identity
+  Center, only if the security team needs to query raw logs directly
+  instead of through the Audit account's tooling.
+
+### Audit
+
+Read-only visibility into every other account's security posture, so
+the people investigating an incident never need standing access inside
+the account where it happened.
+
+- GuardDuty delegated-administrator role and, optionally, Security Hub
+  delegated-administrator role (Phase 5) — both AWS service-linked,
+  granted by the Management account, letting Audit see findings across
+  the whole organization without being invited into each account one at
+  a time.
+- If Phase 4's optional Config aggregator is set up, the same
+  cross-account read pattern applies there too.
+- A `SecurityAuditor` permission set via Identity Center: read-only
+  across every account in the org, for whoever is actually doing the
+  security review work day to day.
+
+### Workloads (`smb-migration-demo`, and future workload accounts)
+
+Where the application actually runs. Everything built in the rest of
+this repo lives here, unchanged by any of this.
+
+- `smb-migration-demo-cli`: the existing scoped IAM user from
+  `infrastructure/iam/README.md`. Unchanged — long-lived credentials for
+  CLI automation (`cdk deploy` and similar), not a human login, which is
+  exactly why Phase 7 keeps it alongside Identity Center instead of
+  replacing it.
+- `smb-migration-demo-app-role`: the existing EC2 instance role from
+  Part 6 of the simulation guide. Unchanged — what the application
+  instances themselves assume at runtime to read secrets and reach
+  RDS/DynamoDB/S3.
+- A `WorkloadAdmin` permission set via Identity Center (Phase 7), for
+  engineers who need day-to-day Console/CLI access to this account. This
+  is what a landing zone replaces "a separate IAM user per person per
+  account" with, and it's the only genuinely new human-facing access
+  this phase adds to this account.
+- All of the above are still bound by the `Workloads` OU's SCP
+  (Phase 6): an SCP applies above IAM, so it constrains
+  `WorkloadAdmin`, the app role, and the CLI user alike, regardless of
+  how permissive any one of them is on its own.
+
 ## Phase 1: Enable AWS Organizations
 
 Done from whatever AWS account will become the Management account (the
