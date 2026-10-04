@@ -1,0 +1,28 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "OrganizationsManagement",
+      "Effect": "Allow",
+      "Action": "organizations:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "IdentityCenterManagement",
+      "Effect": "Allow",
+      "Action": "sso:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "BillingReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "billing:GetBillingData",
+        "ce:Get*",
+        "ce:Describe*",
+        "account:GetAccountInformation"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Invoices{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Invoices</h1>
+  <a class="button" href="{{ url_for('invoice_new') }}">+ New invoice</a>
+</div>
+
+{% if invoices %}
+<table>
+  <thead><tr><th>#</th><th>Customer</th><th>Amount</th><th>Status</th><th>Due</th><th></th></tr></thead>
+  <tbody>
+    {% for inv in invoices %}
+    <tr>
+      <td><a href="{{ url_for('invoice_detail', invoice_id=inv.id) }}">{{ inv.invoice_number }}</a></td>
+      <td>{{ inv.customer.name }}</td>
+      <td>${{ "%.2f"|format(inv.amount) }}</td>
+      <td><span class="badge badge-{{ inv.status }}">{{ inv.status }}</span></td>
+      <td>{{ inv.due_date or "" }}</td>
+      <td class="actions">
+        <a href="{{ url_for('invoice_edit', invoice_id=inv.id) }}">Edit</a>
+        <form method="post" action="{{ url_for('invoice_delete', invoice_id=inv.id) }}" onsubmit="return confirm('Delete this invoice?');">
+          <button type="submit" class="link-button">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No invoices yet.</p>
+{% endif %}
+{% endblock %}

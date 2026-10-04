@@ -1,0 +1,42 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ThreatAndFindingsReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "guardduty:Get*",
+        "guardduty:List*",
+        "securityhub:Get*",
+        "securityhub:List*",
+        "securityhub:Describe*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "LogAndConfigReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "cloudtrail:LookupEvents",
+        "cloudtrail:GetTrailStatus",
+        "cloudtrail:DescribeTrails",
+        "config:Get*",
+        "config:List*",
+        "config:Describe*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "LogArchiveBucketReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::smb-migration-demo-log-archive",
+        "arn:aws:s3:::smb-migration-demo-log-archive/*"
+      ]
+    }
+  ]
+}
